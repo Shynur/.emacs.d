@@ -1,0 +1,10 @@
+# 先排除所有物料:
+/*
+
+# (1) 再筛选出应当跟踪的文件:
+!/.gitignore
+!/git-add-commit-push.bat
+!/init.el
+
+# (2) 再筛选出应当跟踪的目录:
+!/shynur/
