@@ -94,6 +94,10 @@
  '(blink-cursor-mode nil
                      nil (frame)
                      "取消'光标'闪烁")
+ '(gc-cons-threshold most-positive-fixnum)
+ '(gc-cons-percentage 0.5
+                      nil ()
+                      "没搞懂这是干嘛的")
  '(completion-styles '(basic partial-completion initials)
                      nil (minibuffer)
                      "minibuffer的补全风格(从`completion-styles-alist'中选取)")
