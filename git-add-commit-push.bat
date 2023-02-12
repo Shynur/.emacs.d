@@ -3,6 +3,7 @@ git config --global user.email "one.last.kiss@outlook.com"
 
 git add .
 git commit -m "not 1st commit"
+git branch -M main
 
 git config --global http.proxy http://127.0.0.1:1080
 git config --global --unset http.proxy
