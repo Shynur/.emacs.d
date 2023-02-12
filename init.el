@@ -36,7 +36,7 @@
                       ("nongnu" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/nongnu/")
                       ("melpa"  . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/"))
                     3 (package)
-                    "[1]其它'ELPA'中的包会依赖gnu中的包[2]nongnu是官方维护的[3]'MELPA'滚动升级,收录的包的数量最大[4]stable-melpa依据源码的Tag(Git)升级,数量比'MELPA'少,因为很多包作者根本不打Tag[5]Org仅仅为了org-plus-contrib这一个包,Org重度用户使用[6]gnu-devel收录GNU中的包的开发中版本,一般不必启用(类似于'MELPA'与stable-melpa的关系)[7]nongnu-devel收录nongnu中的包的开发中版本,一般不必启用")
+                    "[1]其它'ELPA'中的包会依赖gnu中的包[2]'nongnu'是官方维护的[3]'MELPA'滚动升级,收录的包的数量最大[4]stable-melpa依据源码的Tag(Git)升级,数量比'MELPA'少,因为很多包作者根本不打Tag[5]Org仅仅为了org-plus-contrib这一个包,Org重度用户使用[6]gnu-devel收录GNU中的包的开发中版本,一般不必启用(类似于'MELPA'与stable-melpa的关系)[7]nongnu-devel收录'nongnu'中的包的开发中版本,一般不必启用")
  '(package-selected-packages (progn
                                ;;摘编自'https://orgmode.org/elpa.html'
 			       (unless (file-exists-p (concat
@@ -95,7 +95,7 @@
                      nil (frame)
                      "取消'光标'闪烁")
  '(gc-cons-threshold most-positive-fixnum)
- '(gc-cons-percentage 0.5
+ '(gc-cons-percentage gc-cons-percentage
                       nil ()
                       "没搞懂这是干嘛的")
  '(completion-styles '(basic partial-completion initials)
@@ -210,6 +210,7 @@
                         "想要将'电量'显示在'时间'之后,就必须在`display-time-mode'开启之后,再开启这个模式;显示格式受`battery-mode-line-format'影响")
  '(battery-mode-line-format battery-mode-line-format
                             nil (battery))
+ '(garbage-collection-messages t)
  '(battery-update-interval battery-update-interval
                            nil (battery))
  '(enable-recursive-minibuffers nil
