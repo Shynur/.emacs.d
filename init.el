@@ -592,6 +592,17 @@
  '(global-page-break-lines-mode t
                                 nil (page-break-lines)
                                 "将 form feed 字符渲染成别致的下划线")
+ '(page-break-lines-modes '(prog-mode
+                            compilation-mode
+                            outline-mode
+                            help-mode)
+                          nil (page-break-lines))
+ '(page-break-lines-lighter page-break-lines-lighter
+                            nil (page-break-lines)
+                            "mode-line上显示的该模式名")
+ '(page-break-lines-max-width nil
+                              nil (page-break-lines)
+                              "渲染的下划线将会占用两个 screen line")
  '(window-divider-mode t
                        nil (frame)
                        "在window的周围显示'拖动条',用来调整window的长和宽.(横向'拖动条'可以用 mode line 代替,所以只需要纵向'拖动条',据此设置`window-divider-default-places'为right-only)(`window-divider-default-right-width'决定'拖动条'的宽度)"))
