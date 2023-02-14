@@ -94,8 +94,9 @@
  '(blink-cursor-mode nil
                      nil (frame)
                      "取消'光标'闪烁")
- '(gc-cons-threshold most-positive-fixnum)
- '(gc-cons-percentage gc-cons-percentage
+ '(gc-cons-threshold (* 1000 1000 1000 4))
+ '(garbage-collection-messages t)
+ '(gc-cons-percentage 0.5
                       nil ()
                       "没搞懂这是干嘛的")
  '(completion-styles '(basic partial-completion initials)
@@ -210,7 +211,6 @@
                         "想要将'电量'显示在'时间'之后,就必须在`display-time-mode'开启之后,再开启这个模式;显示格式受`battery-mode-line-format'影响")
  '(battery-mode-line-format battery-mode-line-format
                             nil (battery))
- '(garbage-collection-messages t)
  '(battery-update-interval battery-update-interval
                            nil (battery))
  '(enable-recursive-minibuffers nil
@@ -654,8 +654,8 @@
                               (ivy-mode 1))
                             (condition-case nil
                                 (progn
-                                  (require 'swiper-backward)
-                                  (swiper))
+                                  (require 'swiper)
+                                  (swiper-backward))
                               ('quit (progn
                                        (require 'ivy)
                                        (ivy-mode -1))))
