@@ -95,7 +95,9 @@
                      nil (frame)
                      "取消'光标'闪烁")
  '(gc-cons-threshold (* 1000 1000 1000 4))
- '(garbage-collection-messages t)
+ '(garbage-collection-messages t
+                               nil ()
+                               "GC时在 echo area 显示信息,但不会并入到'*Messages*'中")
  '(gc-cons-percentage 0.5
                       nil ()
                       "没搞懂这是干嘛的")
@@ -149,11 +151,9 @@
  '(completion-cycle-threshold nil
                               nil (minibuffer)
                               "minibuffer补全时,按TAB会轮换候选词")
- '(current-language-environment (cond
-                                 ((eq system-type 'windows-nt) "Chinese-GB18030")
-                                 (t                            "UTF-8"))
+ '(current-language-environment "UTF-8"
                                 nil ()
-                                "仅仅是为了默认使用中文版的'TUTORIAL'(即'TUTORIAL.cn')")
+                                "如果设置为Chinese-GB18030,键入[C-h t]之后就会默认使用中文版的TUTORIAL.cn")
  '(completion-category-overrides completion-category-overrides
                                  nil (minibuffer)
                                  "minibuffer在不同场景下的补全风格(从`completion-styles-alist'中选取)")
