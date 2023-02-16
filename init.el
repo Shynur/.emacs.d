@@ -551,8 +551,8 @@
  '(emacs-startup-hook (append emacs-startup-hook
                               (list
                                #'(lambda ()
-                                   ;;记录一百万次击键
-                                   (lossage-size 1000000))
+                                   ;;记录击键
+                                   (lossage-size (* 10000 10)))
                                #'(lambda ()
                                    (make-thread #'(lambda ()
                                                     (while (not (get-buffer "*scratch*"))
