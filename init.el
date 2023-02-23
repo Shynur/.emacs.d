@@ -39,21 +39,21 @@
                     "[1]其它'ELPA'中的包会依赖gnu中的包[2]'nongnu'是官方维护的[3]'MELPA'滚动升级,收录的包的数量最大[4]stable-melpa依据源码的Tag(Git)升级,数量比'MELPA'少,因为很多包作者根本不打Tag[5]Org仅仅为了org-plus-contrib这一个包,Org重度用户使用[6]gnu-devel收录GNU中的包的开发中版本,一般不必启用(类似于'MELPA'与stable-melpa的关系)[7]nongnu-devel收录'nongnu'中的包的开发中版本,一般不必启用")
  '(package-selected-packages (progn
                                ;;摘编自'https://orgmode.org/elpa.html'
-			       (unless (file-exists-p (concat
+                               (unless (file-exists-p (concat
                                                        shynur-user_~/.emacs.d/.shynur-local/
                                                        ".shynur-package-refreshed"))
-			         (package-refresh-contents)
+                                 (package-refresh-contents)
                                  (make-empty-file (concat
                                                    shynur-user_~/.emacs.d/.shynur-local/
                                                    ".shynur-package-refreshed") t))
-			       (mapcar #'(lambda (package-symbol)
-					   (unless (package-installed-p package-symbol)
+                               (mapcar #'(lambda (package-symbol)
+                                           (unless (package-installed-p package-symbol)
                                              (package-install package-symbol))
                                            (cond
                                             ((eq package-symbol 'sly) (setq lisp-mode-hook '(sly-editing-mode))))
                                            package-symbol)
-                                       '(ag expand-region multiple-cursors sublime-themes slime-company company-quickhelp centaur-tabs helpful smex doom-themes
-					    . (highlight-parentheses
+                                       '(ag expand-region sublime-themes slime-company company-quickhelp centaur-tabs helpful smex doom-themes
+                                            . (highlight-parentheses
                                                dimmer
                                                rainbow-mode
                                                doom-modeline
@@ -151,9 +151,9 @@
  '(completion-cycle-threshold nil
                               nil (minibuffer)
                               "minibuffer补全时,按TAB会轮换候选词")
- '(current-language-environment "UTF-8"
+ '(current-language-environment "Chinese-GB18030"
                                 nil ()
-                                "如果设置为Chinese-GB18030,键入[C-h t]之后就会默认使用中文版的TUTORIAL.cn")
+                                "如果设置为Chinese-GB18030,则`shell'能兼容Windows,且键入[C-h t]之后就会默认使用中文版的TUTORIAL.cn但更好的方式是使用`help-with-tutorial-spec-language'")
  '(completion-category-overrides completion-category-overrides
                                  nil (minibuffer)
                                  "minibuffer在不同场景下的补全风格(从`completion-styles-alist'中选取)")
@@ -184,17 +184,17 @@
                             (require 'transwin)
                             '(transwin-ask 77))
                          (make-thread #'(lambda ()
-					  (while (not (boundp 'shynur-emacs-running-minutes))
-					    (sleep-for 1))
-					  (message #("又过去一分钟了喵~ 爱来自Emacs, 已运行[%d]min, 进程PID为[%d], 启动耗时[%.3f]s"
-						     24 26 (face bold)
-						     39 41 (face bold)
-						     49 51 (face bold))                                      
-						   ,(progn
-						      (require 'cl-lib)
-						      '(cl-incf shynur-emacs-running-minutes))
-						   ,(emacs-pid)
-						   shynur-emacs-init-seconds)))))
+                                          (while (not (boundp 'shynur-emacs-running-minutes))
+                                            (sleep-for 1))
+                                          (message #("又过去一分钟了喵~ 爱来自Emacs, 已运行[%d]min, 进程PID为[%d], 启动耗时[%.3f]s"
+                                                     24 26 (face bold)
+                                                     39 41 (face bold)
+                                                     49 51 (face bold))
+                                                   ,(progn
+                                                      (require 'cl-lib)
+                                                      '(cl-incf shynur-emacs-running-minutes))
+                                                   ,(emacs-pid)
+                                                   shynur-emacs-init-seconds)))))
                      nil (time)
                      "`display-time-mode'每次更新'时间'时调用(也即,每`display-time-interval'秒一次)")
  '(display-time-interval 60
