@@ -14,8 +14,8 @@
       shynur-user-full-name  "Shynur 谢"
       shynur-user-emails '("one.last.kiss@outlook.com" "segrece@outlook.com"))
 
-(setq shynur-user_~/.emacs.d/.shynur-local/ (concat
-                                             "~/.emacs.d/."
+(setq shynur-user_~/.emacs.d/shynur-local/ (concat
+                                             "~/.emacs.d/"
                                              (downcase shynur-user-first-name)
                                              "-local/"))
 
@@ -40,11 +40,11 @@
  '(package-selected-packages (progn
                                ;;摘编自'https://orgmode.org/elpa.html'
                                (unless (file-exists-p (concat
-                                                       shynur-user_~/.emacs.d/.shynur-local/
+                                                       shynur-user_~/.emacs.d/shynur-local/
                                                        ".shynur-package-refreshed"))
                                  (package-refresh-contents)
                                  (make-empty-file (concat
-                                                   shynur-user_~/.emacs.d/.shynur-local/
+                                                   shynur-user_~/.emacs.d/shynur-local/
                                                    ".shynur-package-refreshed") t))
                                (mapcar #'(lambda (package-symbol)
                                            (unless (package-installed-p package-symbol)
@@ -75,17 +75,17 @@
                              4 (package))
  '(transient-history-file (shynur-pathname-ensure-parent-directory-exist
                            (concat
-                            shynur-user_~/.emacs.d/.shynur-local/
+                            shynur-user_~/.emacs.d/shynur-local/
                             "transient-history-file.el"))
                           nil (transient))
  '(transient-levels-file (shynur-pathname-ensure-parent-directory-exist
                           (concat
-                           shynur-user_~/.emacs.d/.shynur-local/
+                           shynur-user_~/.emacs.d/shynur-local/
                            "transient-levels-file.el"))
                          nil (transient))
  '(transient-values-file (shynur-pathname-ensure-parent-directory-exist
                           (concat
-                           shynur-user_~/.emacs.d/.shynur-local/
+                           shynur-user_~/.emacs.d/shynur-local/
                            "transient-values-file.el"))
                          nil (transient))
  '(case-fold-search t
@@ -137,7 +137,7 @@
  '(auth-sources (mapcar #'(lambda (filename-string)
                             (shynur-pathname-ensure-parent-directory-exist
                              (concat
-                              shynur-user_~/.emacs.d/.shynur-local/
+                              shynur-user_~/.emacs.d/shynur-local/
                               (substring filename-string 2)))) auth-sources)
                 nil (auth-source)
                 "'远程登陆'的认证信息(包含明文密码)的存储位置")
@@ -146,8 +146,9 @@
                            "该customization中的NEW被Emacs设置为t")
  '(auto-save-list-file-prefix (shynur-pathname-ensure-parent-directory-exist
                                (concat
-                                shynur-user_~/.emacs.d/.shynur-local/
+                                shynur-user_~/.emacs.d/shynur-local/
                                 ".auto-save-list-file-prefix/")))
+ '(meta-prefix-char meta-prefix-char)
  '(completion-cycle-threshold nil
                               nil (minibuffer)
                               "minibuffer补全时,按TAB会轮换候选词")
@@ -167,7 +168,7 @@
                          nil (custom))
  '(custom-file (shynur-pathname-ensure-parent-directory-exist
                 (concat
-                 shynur-user_~/.emacs.d/.shynur-local/
+                 shynur-user_~/.emacs.d/shynur-local/
                  ".custom-file.el"))
                nil (cus-edit)
                "修改Emacs导出'customization'的位置,以防Emacs搅乱这个文件的'custom-set-variables'形式和'custom-set-faces'形式")
@@ -218,27 +219,65 @@
                                 "禁用`recursive-minibuffer'")
  '(eshell-directory-name (shynur-pathname-ensure-parent-directory-exist
                           (concat
-                           shynur-user_~/.emacs.d/.shynur-local/
+                           shynur-user_~/.emacs.d/shynur-local/
                            "eshell-directory-name/"))
                          nil (esh-mode))
  '(eshell-history-file-name (shynur-pathname-ensure-parent-directory-exist
                              (concat
-                              shynur-user_~/.emacs.d/.shynur-local/
+                              shynur-user_~/.emacs.d/shynur-local/
                               "eshell-history-file-name.txt"))
                             nil (em-hist))
  '(eshell-last-dir-ring-file-name (shynur-pathname-ensure-parent-directory-exist
                                    (concat
-                                    shynur-user_~/.emacs.d/.shynur-local/
+                                    shynur-user_~/.emacs.d/shynur-local/
                                     "eshell-last-dir-ring-file-name"))
                                   nil (em-dirs))
  '(eww-bookmarks-directory (shynur-pathname-ensure-parent-directory-exist
                             (concat
-                             shynur-user_~/.emacs.d/.shynur-local/
+                             shynur-user_~/.emacs.d/shynur-local/
                              "eww-bookmarks-directory/"))
                            nil (eww))
  '(extended-command-suggest-shorter t
                                     nil (simple)
                                     "通过不完整的函数名调用command时,在 echo area 中提示这个command的全名")
+ '(desktop-restore-frames nil
+                          nil (desktop)
+                          "保存'desktop'时,将'frame'和'window'的参数排除在外")
+ '(desktop-save-mode t
+                     nil (desktop))
+ '(desktop-path (list
+                 (shynur-pathname-ensure-parent-directory-exist
+                  (concat
+                   shynur-user_~/.emacs.d/shynur-local/
+                   "desktop-path/")))
+                nil (desktop)
+                "查找被保存的'desktop'的位置所在的目录")
+ '(desktop-base-file-name "desktop-base-file-name.el"
+                          nil (desktop)
+                          "和`desktop-path'组合使用")
+ '(desktop-base-lock-name "desktop-base-lock-name.el"
+                          nil (desktop))
+ '(savehist-file (shynur-pathname-ensure-parent-directory-exist
+                  (concat
+                   shynur-user_~/.emacs.d/shynur-local/
+                   "savehist-file.el"))
+                 nil (savehist)
+                 "必须在打开`savehist-mode'之前设置此变量,否则`savehist-mode'将找不到该文件")
+ '(savehist-mode t
+                 nil (savehist)
+                 "保存minibuffer的历史记录")
+ '(savehist-autosave-interval nil
+                              nil (savehist)
+                              "每多少秒保存一次minibuffer的历史记录")
+ '(desktop-restore-eager t
+                         nil (desktop)
+                         "不使用懒惰策略去恢复'desktop'")
+ '(desktop-load-locked-desktop nil
+                               nil (desktop)
+                               "Emacs运行时会创建一个locked'dekstop'文件,如果Emacs崩溃了再启动,将忽略这个文件")
+ '(desktop-auto-save-timeout nil
+                             nil (desktop)
+                             "取消功能:在idle时自动保存'desktop'")
  '(file-name-shadow-mode t
                          nil (rfn-eshadow)
                          "`find-file'时,若输入绝对路径,则调暗默认值的前景")
@@ -365,7 +404,7 @@
                                      "只有将该变量设置为自己在OS中的'username',才能屏蔽'startup'时 echo area 的“For information about GNU Emacs and the GNU system, type C-h C-a.”")
  '(save-place-file (shynur-pathname-ensure-parent-directory-exist
                     (concat
-                     shynur-user_~/.emacs.d/.shynur-local/
+                     shynur-user_~/.emacs.d/shynur-local/
                      "save-place-file.el"))
                    nil (saveplace))
  '(save-place-mode t
@@ -393,7 +432,7 @@
                         "_1_通过函数名调用command时,在minibuffer中提示这个command可能绑定的快捷键;_2_决定`extended-command-suggest-shorter'的显示持续时间;_3_将前面这两个提示信息持续显示5秒;_4_使command候选词列表中,各函数名的后面显示该函数绑定的快捷键")
  '(temporary-file-directory (shynur-pathname-ensure-parent-directory-exist
                              (concat
-                              shynur-user_~/.emacs.d/.shynur-local/
+                              shynur-user_~/.emacs.d/shynur-local/
                               "temporary-file-directory/"))
                             nil ()
                             "'临时文件'的放置目录(隐私文件放在“/tmp/”目录是不妥的)")
@@ -405,7 +444,7 @@
              "上下移动时,不紧贴行尾")
  '(tramp-auto-save-directory (shynur-pathname-ensure-parent-directory-exist
                               (concat
-                               shynur-user_~/.emacs.d/.shynur-local/
+                               shynur-user_~/.emacs.d/shynur-local/
                                "tramp-auto-save-directory/"))
                              nil (tramp))
  '(apropos-do-all nil
@@ -427,7 +466,7 @@
                         "编辑'remote-file'时,选择使用何种方法链接至服务器(MS-Windows必须先下载plink工具)")
  '(tramp-persistency-file-name (shynur-pathname-ensure-parent-directory-exist
                                 (concat
-                                 shynur-user_~/.emacs.d/.shynur-local/
+                                 shynur-user_~/.emacs.d/shynur-local/
                                  "tramp-persistency-file-name.el"))
                                nil (tramp-cache))
  '(apropos-sort-by-scores 'verbose
@@ -442,12 +481,12 @@
                                 "当`uniquify-buffer-name-style'的设置涉及补全文件路径时,保留显示路径名之间相同的部分")
  '(url-cache-directory (shynur-pathname-ensure-parent-directory-exist
                         (concat
-                         shynur-user_~/.emacs.d/.shynur-local/
+                         shynur-user_~/.emacs.d/shynur-local/
                          "url-cache-directory/"))
                        nil (url-cache))
  '(url-cookie-file (shynur-pathname-ensure-parent-directory-exist
                     (concat
-                     shynur-user_~/.emacs.d/.shynur-local/
+                     shynur-user_~/.emacs.d/shynur-local/
                      "url-cookie-file"))
                    nil (url-cookie))
  '(user-full-name shynur-user-full-name
