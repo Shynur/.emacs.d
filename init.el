@@ -91,6 +91,9 @@
  '(case-fold-search t
                     nil ()
                     "search/match时忽略大小写(经试验,isearch仅在给定模式串全部是小写时忽略大小写);影响函数:`char-equal';无关函数:`string='")
+ '(case-replace t
+                nil (replace)
+                "文本替换时,大小写敏感")
  '(blink-cursor-mode nil
                      nil (frame)
                      "取消'光标'闪烁")
@@ -214,6 +217,9 @@
                             nil (battery))
  '(battery-update-interval battery-update-interval
                            nil (battery))
+ '(delete-selection-mode t
+                         nil (delsel)
+                         "选中文本后输入字符,会先删除刚刚选择的文本,再插入输入的字符")
  '(enable-recursive-minibuffers nil
                                 nil ()
                                 "禁用`recursive-minibuffer'")
@@ -287,6 +293,21 @@
  '(global-display-line-numbers-mode t
                                     nil (display-line-numbers)
                                     "启用行首行号")
+ '(display-line-numbers-type t
+                             nil (display-line-numbers)
+                             "启用绝对行号")
+ '(display-line-numbers-widen nil
+                              nil (display-line-numbers))
+ '(neo-show-hidden-files t
+                         nil (neotree))
+ '(neotree-mode-hook (append neotree-mode-hook
+                             (list
+                              #'(lambda ()
+                                  ;; 关闭'neotree'的行号
+                                  (progn
+                                    (require 'display-line-numbers)
+                                    (display-line-numbers-mode -1)))))
+                     nil (neotree))
  '(global-hl-line-mode t
                        nil (hl-line)
                        "'高亮'当前行")
@@ -327,14 +348,10 @@
                                                        (require 'window)
                                                        (other-window 1)
                                                        (delete-other-windows))
-                                                     ;;打开'neotree'侧边栏,并关闭它的行号
                                                      (progn
                                                        (progn
                                                          (require 'neotree)
                                                          (neotree))
-                                                       (progn
-                                                         (require 'display-line-numbers)
-                                                         (display-line-numbers-mode -1))
                                                        (progn
                                                          (require 'window)
                                                          (other-window 1)))))
