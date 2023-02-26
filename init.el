@@ -165,6 +165,13 @@
  '(completion-category-overrides completion-category-overrides
                                  nil (minibuffer)
                                  "minibuffer在不同场景下的补全风格(从`completion-styles-alist'中选取)")
+ '(transient-mark-mode t
+                       nil ()
+                       "高亮'region'")
+ '(mark-even-if-inactive mark-even-if-inactive
+                         nil ()
+                         "不知道干嘛用的")
+ '(cua-mode nil)
  '(completion-ignored-extensions completion-ignored-extensions
                                  nil ()
                                  "对文件路径进行补全时,忽略这些后缀限定的文件名")
@@ -253,7 +260,7 @@
  '(desktop-restore-frames nil
                           nil (desktop)
                           "保存'desktop'时,将'frame'和'window'的参数排除在外")
- '(desktop-save-mode t
+ '(desktop-save-mode nil
                      nil (desktop))
  '(desktop-path (list
                  (shynur-pathname-ensure-parent-directory-exist
@@ -624,8 +631,21 @@
                                         t)))))
  '(calendar-mark-holidays-flag t
                                nil (calendar))
+ '(server-auth-dir (shynur-pathname-ensure-parent-directory-exist
+                    (concat
+                     shynur-user_~/.emacs.d/shynur-local/
+                     "server-auth-dir/"))
+                   nil (server)
+                   "'server-auth-dir/server-name.txt',该变量需要在`server-start'之前设置好")
+ '(server-name "server-name.txt"
+               nil (server)
+               "'server-auth-dir/server-name.txt',该变量需要在`server-start'之前设置好")
+ '(mouse-autoselect-window nil
+                           nil ()
+                           "当鼠标在一个'frame'上移动时,并不根据鼠标的位置自动选择'window',以防鼠标突然被碰撞导致选中其它'window'")
  '(emacs-startup-hook (append emacs-startup-hook
                               (list
+                               #'server-start ;<https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Associate-files-with-Emacs>;一定要在启动之后才调用该函数,让各项参数设置好
                                #'toggle-frame-maximized ;'frame'最大化(见<https://www.gnu.org/software/emacs/manual/html_node/efaq/Fullscreen-mode-on-MS_002dWindows.html>)
                                #'(lambda ()
                                    ;;记录击键
