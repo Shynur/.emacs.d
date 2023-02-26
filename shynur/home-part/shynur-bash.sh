@@ -80,5 +80,3 @@ alias sestatus='sestatus -v'
 alias chcon='chcon --verbose'
 
 alias restorecon='restorecon -v'
-
-timedatectl set-timezone 'Asia/Shanghai'

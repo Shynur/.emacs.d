@@ -155,7 +155,11 @@
  '(completion-cycle-threshold nil
                               nil (minibuffer)
                               "minibuffer补全时,按TAB会轮换候选词")
- '(current-language-environment "Chinese-GB18030"
+ '(current-language-environment (cond
+                                 ((eq system-type 'windows-nt)
+                                  "Chinese-GB18030")
+                                 (t
+                                  "UTF-8"))
                                 nil ()
                                 "如果设置为Chinese-GB18030,则`shell'能兼容Windows,且键入[C-h t]之后就会默认使用中文版的TUTORIAL.cn但更好的方式是使用`help-with-tutorial-spec-language'")
  '(completion-category-overrides completion-category-overrides
@@ -236,7 +240,7 @@
  '(eshell-last-dir-ring-file-name (shynur-pathname-ensure-parent-directory-exist
                                    (concat
                                     shynur-user_~/.emacs.d/shynur-local/
-                                    "eshell-last-dir-ring-file-name"))
+                                    "eshell-last-dir-ring-file-name.txt"))
                                   nil (em-dirs))
  '(eww-bookmarks-directory (shynur-pathname-ensure-parent-directory-exist
                             (concat
@@ -296,18 +300,35 @@
  '(display-line-numbers-type t
                              nil (display-line-numbers)
                              "启用绝对行号")
+ '(global-font-lock-mode t
+                         nil (font-core)
+                         "全局'语法高亮'")
  '(display-line-numbers-widen nil
                               nil (display-line-numbers))
  '(neo-show-hidden-files t
                          nil (neotree))
+ '(c-mode-common-hook (append c-mode-common-hook
+                              (list
+                               #'(lambda ()
+                                   ;;见<https://www.gnu.org/software/emacs/manual/html_node/efaq/Indenting-switch-statements.html>
+                                   (c-set-offset 'case-label '+))
+                               #'(lambda ()
+                                   ;;只保留当前编译环境下,生效的ifdef从句
+                                   (progn
+                                     (require 'hideif)
+                                     (hide-ifdef-mode)))))
+                      nil (cc-mode))
  '(neotree-mode-hook (append neotree-mode-hook
                              (list
                               #'(lambda ()
-                                  ;; 关闭'neotree'的行号
+                                  ;;关闭'neotree'的行号
                                   (progn
                                     (require 'display-line-numbers)
                                     (display-line-numbers-mode -1)))))
                      nil (neotree))
+ '(visible-cursor visible-cursor
+                  nil ()
+                  "在 text terminal 下,如果有可能的话,使'cursor'外形或特征更加显著")
  '(global-hl-line-mode t
                        nil (hl-line)
                        "'高亮'当前行")
@@ -326,47 +347,42 @@
  '(horizontal-scroll-bar-mode nil
                               nil (scroll-bar)
                               "不显示横向'滚动条'")
+ '(tab-width 4)
  '(indent-tabs-mode nil
                     nil ()
-                    "制表符尽量用空格代替")
+                    "制表符尽量用空格代替.(不过,诸如'Bash'脚本之类的文件编写还是需要tab字符的)")
+ '(visible-bell t
+                nil ()
+                "响铃可视化.在Windows上表现为,任务栏图标闪烁")
  '(inhibit-startup-screen t
                           nil ()
                           "取消原本的 startup screen")
- '(initial-buffer-choice (progn (when (string= system-name "ASUS-TX2")
-                                  (progn
-                                    (require 'files)
-                                    (find-file "d:/Desktop/Shynur.GitHub.iO/Categories/Usages/Emacs/Emacs_Manual_Review.txt"))
-                                  (progn
-                                    (require 'files)
-                                    (find-file "d:/Desktop/Shynur.GitHub.iO/Categories/Usages/Emacs/Elisp_Reference_Manual_Review.txt")))
-                                #'(lambda ()
-                                    (make-thread #'(lambda ()
-                                                     (while (not (get-file-buffer "~/.emacs.d/init.el")) ;如果没有打开'initial-buffer',那就继续等待
-                                                       (sleep-for 0.1))
-                                                     ;;如果启动时,除了'initial-buffer',还打开了其它'window',那么就将画面转到那个'window'
-                                                     (progn
-                                                       (require 'window)
-                                                       (other-window 1)
-                                                       (delete-other-windows))
-                                                     (progn
-                                                       (progn
-                                                         (require 'neotree)
-                                                         (neotree))
-                                                       (progn
-                                                         (require 'window)
-                                                         (other-window 1)))))
-                                    ;;先打开'ielm'
-                                    (progn
-                                      (require 'ielm)
-                                      (ielm))
-                                    (find-file "~/.emacs.d/init.el")))
+ '(initial-buffer-choice #'(lambda ()
+                             (make-thread #'(lambda ()
+                                              (while (not (get-file-buffer "~/.emacs.d/init.el")) ;如果没有打开'initial-buffer',那就继续等待
+                                                (sleep-for 0.1))
+                                              ;;如果启动时,除了'initial-buffer',还打开了其它'window',那么就将画面转到那个'window'
+                                              (progn
+                                                (require 'window)
+                                                (other-window 1)
+                                                (delete-other-windows))
+                                              (progn
+                                                (progn
+                                                  (require 'neotree)
+                                                  (neotree))
+                                                (progn
+                                                  (require 'window)
+                                                  (other-window 1)))))
+                             ;;先打开'ielm'
+                             (progn
+                               (require 'ielm)
+                               (ielm))
+                             (find-file "~/.emacs.d/init.el"))
                          nil (files window)
                          "用返回结果代替原来的 startup screen")
- '(initial-frame-alist (append initial-frame-alist
-                               (list
-                                (cons 'fullscreen 'maximized)))
-                       nil (frame)
-                       "将启动时的那个'frame'最大化")
+ '(auto-save-interval auto-save-interval
+                      nil ()
+                      "两次'自动保存'之间的等待击键次数")
  '(insert-default-directory t
                             nil (minibuffer)
                             "`find-file'时,给出默认目录")
@@ -433,6 +449,9 @@
  '(search-default-mode t
                        nil (isearch)
                        "令`isearch'使用'regexp'搜索")
+ '(show-paren-mode t
+                   nil (paren)
+                   "括号前后匹配时,高亮显示")
  '(show-paren-delay 0.125
                     nil (paren)
                     "延迟0.125s时间之后,高亮成对的括号")
@@ -563,6 +582,7 @@
  '(global-highlight-parentheses-mode t
                                      nil (highlight-parentheses)
                                      "给内层括号换种颜色")
+ '(sentence-end-double-space t)
  '(prog-mode-hook (append prog-mode-hook
                           (list
                            'rainbow-mode
@@ -606,10 +626,12 @@
                                nil (calendar))
  '(emacs-startup-hook (append emacs-startup-hook
                               (list
+                               #'toggle-frame-maximized ;'frame'最大化(见<https://www.gnu.org/software/emacs/manual/html_node/efaq/Fullscreen-mode-on-MS_002dWindows.html>)
                                #'(lambda ()
                                    ;;记录击键
                                    (lossage-size (* 10000 10)))
                                #'(lambda ()
+                                   ;;关闭'*scratch*'
                                    (make-thread #'(lambda ()
                                                     (while (not (get-buffer "*scratch*"))
                                                       sleep-for 1)
@@ -618,14 +640,14 @@
                                    (prefer-coding-system 'utf-8-unix)
                                    (set-coding-system-priority 'utf-8-unix))
                                #'(lambda ()
-                                   ;;require 'zone'
-                                   (zone-when-idle (* 60 10)))
+                                   (progn
+                                     (require 'zone)
+                                     (zone-when-idle (* 60 10))))
                                #'(lambda ()
-                                   (setq shynur-emacs-init-seconds (/ (- (car (time-convert after-init-time 1000))
-                                                                         (car (time-convert before-init-time 1000)))
-                                                                      1000.0)
-                                         shynur-emacs-running-minutes -2))))
-                      nil (zone))
+                                   (defconst shynur-emacs-init-seconds (/ (- (car (time-convert after-init-time 1000))
+                                                                             (car (time-convert before-init-time 1000)))
+                                                                          1000.0))
+				                   (setq shynur-emacs-running-minutes -2)))))
  '(tooltip-delay 0
                  nil (tooltip))
  '(tooltip-mode t
@@ -684,6 +706,8 @@
 (global-unset-key [?\C-h ?\C-t])
 (global-unset-key [?\C-h ?\C-w])
 
+(global-unset-key [?\C-x ?\f]) ;set-fill-column
+
 (global-set-key [?\C-z] (progn
                           (require 'restart-emacs)
                           'restart-emacs))
@@ -723,3 +747,5 @@
 (keyboard-translate ?\] ?\))
 (keyboard-translate ?\( ?\[)
 (keyboard-translate ?\) ?\])
+
+;;--------------------------------------------------------
