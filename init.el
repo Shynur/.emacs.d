@@ -1,15 +1,20 @@
-;;; ~/.emacs.d/init.el
+;;; ~shynur/.emacs.d/init.el
 ;;; Copyright (C) 2023 Shynur <one.last.kiss@outlook.com>
-;;
-;;;; TODO:
-;;;;; [1]   不应该单纯开启`global-display-line-numbers-mode',
-;;;;;     而是应该给出一个分类机制,有需要的mode才打开`display-line-numbers-mode'.
-;;;;;       有些mode(例如,'neotree','calendar',...)显示行号反而会占用空间.
-;;;;; [2]   将_非选中的window_且_是prog-mode的buffer_全部开启全局彩虹括号
-;;;;;     'highlight-parentheses'只会高亮光标附近的括号,其余地方还是一成不变.
-;;;;;       这样不够酷炫.
 
-;;'用户只需要编辑下面的3行代码即可'
+;;--------------------------------------------------------------------
+;; 你可以修改的选项:
+;;     - `shynur-user-first-name'
+;;     - `shynur-user-full-name'
+;;     - `shynur-user-emails'
+;;--------------------------------------------------------------------
+;; 为了获得更好的Emacs体验,你还可以进行如下的操作.
+;;
+;;     1. 设置环境变量:
+;;         - EDITOR=bin/emacsclientw
+;;         - VISUAL=$EDITOR
+;;         - ALTERNATE_EDITOR=bin/runemacs
+;;--------------------------------------------------------------------
+
 (setq shynur-user-first-name "Shynur"
       shynur-user-full-name  "Shynur 谢"
       shynur-user-emails '("one.last.kiss@outlook.com" "segrece@outlook.com"))
@@ -387,6 +392,9 @@
                              (find-file "~/.emacs.d/init.el"))
                          nil (files window)
                          "用返回结果代替原来的 startup screen")
+ '(global-auto-revert-mode t
+                           nil (autorevert)
+                           "<https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Reverting-buffers>")
  '(auto-save-interval auto-save-interval
                       nil ()
                       "两次'自动保存'之间的等待击键次数")
@@ -503,10 +511,12 @@
                               nil (on-screen)
                               "决定`on-screen-global-mode'如何提示")
  '(tramp-default-method (cond
-                         ((eq system-type 'windows-nt) "plink")
-                         (t               tramp-default-method))
+                         ((eq system-type 'windows-nt)
+                          "plink")
+                         (t
+                          tramp-default-method))
                         nil (tramp)
-                        "编辑'remote-file'时,选择使用何种方法链接至服务器(MS-Windows必须先下载plink工具)")
+                        "编辑'remote-file'时,选择使用何种方法链接至服务器(MS-Windows必须先下载plink工具: <https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Tramp-ssh>)")
  '(tramp-persistency-file-name (shynur-pathname-ensure-parent-directory-exist
                                 (concat
                                  shynur-user_~/.emacs.d/shynur-local/
@@ -565,16 +575,16 @@
  '(on-screen-delay 1
                    nil (on-screen)
                    "'on-screen'的提示持续时间")
- '(company-minimum-prefix-length 1
+ '(company-minimum-prefix-length 2
                                  nil (company)
-                                 "当输入1个字符时,'company'就开始猜测'补全'")
+                                 "当输入2个字符时,'company'就开始猜测'补全'")
  '(company-dabbrev-code-everywhere t
                                    nil (company)
                                    "还在'comment'和'string'中进行'补全'")
  '(company-dabbrev-code-other-buffers t
                                       nil (company)
                                       "在具有相同 major mode 的'buffer'中搜索'补全'候选词")
- '(company-dabbrev-code-time-limit 10
+ '(company-dabbrev-code-time-limit 2
                                    nil (company)
                                    "在'current-buffer'中搜索代码块中的关键词的时间限制")
  '(company-show-quick-access t
@@ -583,6 +593,12 @@
  '(company-tooltip-limit 10
                          nil (company)
                          "一次性显示候选词的数量")
+ '(w32-mouse-button-tolerance w32-mouse-button-tolerance
+                              nil ()
+                              "如果鼠标的3个案件中有一个失灵了,可以在这么多毫秒内同时按下其余两个键,Emacs会将其识别为失灵的那个键")
+ '(w32-swap-mouse-buttons nil
+                          nil ()
+                          "是否交换鼠标的中键和右键")
  '(dimmer-mode t
                nil (dimmer)
                "暗淡非聚焦状态的'window'(似乎可以设置渐变色)")
@@ -631,6 +647,39 @@
                                         t)))))
  '(calendar-mark-holidays-flag t
                                nil (calendar))
+ '(ls-lisp-use-insert-directory-program nil
+                                        nil (ls-lisp)
+                                        "'dired'是否要使用外部的ls-like命令?(如果该变量置t,将采纳`insert-directory-program'提供的值)")
+ '(insert-directory-program (cond
+                             (t
+                              insert-directory-program))
+                            nil (files)
+                            "如果需要使用外部的ls-like命令,它的路径将被存储于该变量")
+ '(comint-completion-addsuffix '("\\" . " ")
+                               nil (comint)
+                               "'shell-mode'对pathname补全时,在pathname之后添加的字符串.(e.g., cat+.emacs.d/init.el+该变量的值)")
+ '(comint-process-echoes (cond
+                          ((eq system-type 'windows-nt)
+                           t)
+                          (t
+                           comint-process-echoes))
+                         nil (comint)
+                         "Windows上的PowerShell会回显输入的命令(至少在'shell-mode'中是这样),设置此变量以删除它")
+ '(shell-mode-hook (append shell-mode-hook
+                           (list
+                            (cond
+                             ;;为运行在Windows上的'shell-mode'调用powershell以取代默认的cmd.exe
+                             ((eq system-type 'windows-nt)
+                              #'(lambda ()
+                                  (execute-kbd-macro [?p ?o ?w ?e ?r ?s ?h ?e ?l ?l ?])))
+                             (t
+                              #'ignore))))
+                   nil (shell))
+ '(explicit-shell-file-name (cond
+                             (t
+                              explicit-shell-file-name))
+                            nil (shell)
+                            "'shell-mode'的默认启动SHELL(见<https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Using-shell>)")
  '(server-auth-dir (shynur-pathname-ensure-parent-directory-exist
                     (concat
                      shynur-user_~/.emacs.d/shynur-local/
@@ -663,6 +712,14 @@
                                    (progn
                                      (require 'zone)
                                      (zone-when-idle (* 60 10))))
+                               #'(lambda ()
+                                   ;;与X/Windows交互'clipboard'时的编码/解码方式
+                                   (progn
+                                     (require 'mule)
+                                     (set-selection-coding-system 'utf-8)))
+                               #'(lambda ()
+                                   ;;调节'beep'的声音种类,而不是音量
+                                   (set-message-beep nil))
                                #'(lambda ()
                                    (defconst shynur-emacs-init-seconds (/ (- (car (time-convert after-init-time 1000))
                                                                              (car (time-convert before-init-time 1000)))
@@ -769,3 +826,13 @@
 (keyboard-translate ?\) ?\])
 
 ;;--------------------------------------------------------
+
+;; TODO:
+;; [1]
+;; 不应该单纯开启`global-display-line-numbers-mode',
+;; 而是应该给出一个分类机制,有需要的mode才打开`display-line-numbers-mode'.
+;; 有些mode(例如,'neotree','calendar',...)显示行号反而会占用空间.
+;; [2]
+;; 将_非选中的window_且_是prog-mode的buffer_全部开启全局彩虹括号
+;; 'highlight-parentheses'只会高亮光标附近的括号,其余地方还是一成不变.
+;; 这样不够酷炫.
