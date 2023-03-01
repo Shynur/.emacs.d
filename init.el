@@ -34,7 +34,8 @@
  '(package-archive-priorities '(("gnu"    . 0)
                                 ("nongnu" . 0)
                                 ("melpa"  . 0))
-                              1 (package))
+                              1 (package)
+                              "暂时不需要修改,因为根据`package-menu-hide-low-priority',默认选取最新的包")
  '(package-menu-hide-low-priority t
                                   2 (package))
  '(package-archives '(("gnu"    . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")
@@ -369,29 +370,7 @@
  '(inhibit-startup-screen t
                           nil ()
                           "取消原本的 startup screen")
- '(initial-buffer-choice #'(lambda ()
-                             (make-thread #'(lambda ()
-                                              (while (not (get-file-buffer "~/.emacs.d/init.el")) ;如果没有打开'initial-buffer',那就继续等待
-                                                (sleep-for 0.1))
-                                              ;;如果启动时,除了'initial-buffer',还打开了其它'window',那么就将画面转到那个'window'
-                                              (progn
-                                                (require 'window)
-                                                (other-window 1)
-                                                (delete-other-windows))
-                                              (progn
-                                                (progn
-                                                  (require 'neotree)
-                                                  (neotree))
-                                                (progn
-                                                  (require 'window)
-                                                  (other-window 1)))))
-                             ;;先打开'ielm'
-                             (progn
-                               (require 'ielm)
-                               (ielm))
-                             (find-file "~/.emacs.d/init.el"))
-                         nil (files window)
-                         "用返回结果代替原来的 startup screen")
+ '(initial-buffer-choice "~/.emacs.d/init.el")
  '(global-auto-revert-mode t
                            nil (autorevert)
                            "<https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Reverting-buffers>")
@@ -655,7 +634,7 @@
                               insert-directory-program))
                             nil (files)
                             "如果需要使用外部的ls-like命令,它的路径将被存储于该变量")
- '(comint-completion-addsuffix '("\\" . " ")
+ '(comint-completion-addsuffix '("/" . " ")
                                nil (comint)
                                "'shell-mode'对pathname补全时,在pathname之后添加的字符串.(e.g., cat+.emacs.d/init.el+该变量的值)")
  '(comint-process-echoes (cond
@@ -671,7 +650,7 @@
                              ;;为运行在Windows上的'shell-mode'调用powershell以取代默认的cmd.exe
                              ((eq system-type 'windows-nt)
                               #'(lambda ()
-                                  (execute-kbd-macro [?p ?o ?w ?e ?r ?s ?h ?e ?l ?l ?])))
+                                  (execute-kbd-macro (string-to-vector "powershell"))))
                              (t
                               #'ignore))))
                    nil (shell))
@@ -699,6 +678,16 @@
                                #'(lambda ()
                                    ;;记录击键
                                    (lossage-size (* 10000 10)))
+                               #'(lambda ()
+                                   (make-thread #'(lambda ()
+                                                    (while (not (get-file-buffer initial-buffer-choice))
+                                                      (sleep-for 0.1))
+                                                    (progn
+                                                      (require 'neotree)
+                                                      (neotree))
+                                                    (progn
+                                                      (require 'window)
+                                                      (other-window 1)))))
                                #'(lambda ()
                                    ;;关闭'*scratch*'
                                    (make-thread #'(lambda ()
@@ -826,7 +815,6 @@
 (keyboard-translate ?\) ?\])
 
 ;;--------------------------------------------------------
-
 ;; TODO:
 ;; [1]
 ;; 不应该单纯开启`global-display-line-numbers-mode',
