@@ -772,7 +772,7 @@
 (global-unset-key [?\C-h ?\C-t])
 (global-unset-key [?\C-h ?\C-w])
 
-(global-unset-key [?\C-x ?\f]) ;set-fill-column
+(global-unset-key [?\C-x ?f]) ;set-fill-column
 
 (global-set-key [?\C-z] (progn
                           (require 'restart-emacs)
