@@ -370,7 +370,7 @@
  '(inhibit-startup-screen t
                           nil ()
                           "取消原本的 startup screen")
- '(initial-buffer-choice "~/.emacs.d/init.el")
+ '(initial-buffer-choice user-init-file)
  '(global-auto-revert-mode t
                            nil (autorevert)
                            "<https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Reverting-buffers>")
