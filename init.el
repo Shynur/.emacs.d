@@ -3,9 +3,9 @@
 
 ;;--------------------------------------------------------------------
 ;; 你可以修改的选项:
-;;     - `shynur-user-first-name'
-;;     - `shynur-user-full-name'
-;;     - `shynur-user-emails'
+;;     - `shynur/user-first-name'
+;;     - `shynur/user-full-name'
+;;     - `shynur/user-emails'
 ;;--------------------------------------------------------------------
 ;; 为了获得更好的Emacs体验,你还可以进行如下的操作.
 ;;
@@ -15,16 +15,16 @@
 ;;         - ALTERNATE_EDITOR=bin/runemacs
 ;;--------------------------------------------------------------------
 
-(setq shynur-user-first-name "Shynur"
-      shynur-user-full-name  "Shynur 谢"
-      shynur-user-emails '("one.last.kiss@outlook.com" "segrece@outlook.com"))
+(setq shynur/user-first-name "Shynur"
+      shynur/user-full-name  "Shynur 谢"
+      shynur/user-emails '("one.last.kiss@outlook.com" "segrece@outlook.com"))
 
-(setq shynur-user_~/.emacs.d/shynur-local/ (concat
-                                             "~/.emacs.d/"
-                                             (downcase shynur-user-first-name)
-                                             "-local/"))
+(setq shynur/etc/ (concat
+                   "~/.emacs.d/"
+                   (downcase shynur/user-first-name)
+                   "/etc/"))
 
-(defun shynur-pathname-ensure-parent-directory-exist (pathname-string)
+(defun shynur/pathname-ensure-parent-directory-exist (pathname-string)
   (progn
     (require 'files)
     (make-directory (file-name-directory pathname-string) t))
@@ -48,11 +48,11 @@
  '(package-selected-packages (progn
                                ;;摘编自'https://orgmode.org/elpa.html'
                                (unless (file-exists-p (concat
-                                                       shynur-user_~/.emacs.d/shynur-local/
+                                                       shynur/etc/
                                                        ".shynur-package-refreshed"))
                                  (package-refresh-contents)
                                  (make-empty-file (concat
-                                                   shynur-user_~/.emacs.d/shynur-local/
+                                                   shynur/etc/
                                                    ".shynur-package-refreshed") t))
                                (mapcar #'(lambda (package-symbol)
                                            (unless (package-installed-p package-symbol)
@@ -85,19 +85,19 @@
  '(highlight-nonselected-windows t
                                  nil ()
                                  "除了当前选中的'window',还'高亮'非选中的'window'的'active-region'")
- '(transient-history-file (shynur-pathname-ensure-parent-directory-exist
+ '(transient-history-file (shynur/pathname-ensure-parent-directory-exist
                            (concat
-                            shynur-user_~/.emacs.d/shynur-local/
+                            shynur/etc/
                             "transient-history-file.el"))
                           nil (transient))
- '(transient-levels-file (shynur-pathname-ensure-parent-directory-exist
+ '(transient-levels-file (shynur/pathname-ensure-parent-directory-exist
                           (concat
-                           shynur-user_~/.emacs.d/shynur-local/
+                           shynur/etc/
                            "transient-levels-file.el"))
                          nil (transient))
- '(transient-values-file (shynur-pathname-ensure-parent-directory-exist
+ '(transient-values-file (shynur/pathname-ensure-parent-directory-exist
                           (concat
-                           shynur-user_~/.emacs.d/shynur-local/
+                           shynur/etc/
                            "transient-values-file.el"))
                          nil (transient))
  '(case-fold-search t
@@ -153,18 +153,18 @@
                            nil (calendar)
                            "'日历'中以星期一作为一周的开始")
  '(auth-sources (mapcar #'(lambda (filename-string)
-                            (shynur-pathname-ensure-parent-directory-exist
+                            (shynur/pathname-ensure-parent-directory-exist
                              (concat
-                              shynur-user_~/.emacs.d/shynur-local/
+                              shynur/etc/
                               (substring filename-string 2)))) auth-sources)
                 nil (auth-source)
                 "'远程登陆'的认证信息(包含明文密码)的存储位置")
  '(coding-system-for-write 'utf-8-unix
                            nil ()
                            "该customization中的NEW被Emacs设置为t")
- '(auto-save-list-file-prefix (shynur-pathname-ensure-parent-directory-exist
+ '(auto-save-list-file-prefix (shynur/pathname-ensure-parent-directory-exist
                                (concat
-                                shynur-user_~/.emacs.d/shynur-local/
+                                shynur/etc/
                                 ".auto-save-list-file-prefix/")))
  '(meta-prefix-char meta-prefix-char)
  '(completion-cycle-threshold nil
@@ -195,9 +195,9 @@
                                       "`switch-to-buffer'或`find-file'时,输入前缀并按下TAB后,若有多个候选者但仍然RET,会再确认一遍")
  '(custom-enabled-themes '(modus-vivendi)
                          nil (custom))
- '(custom-file (shynur-pathname-ensure-parent-directory-exist
+ '(custom-file (shynur/pathname-ensure-parent-directory-exist
                 (concat
-                 shynur-user_~/.emacs.d/shynur-local/
+                 shynur/etc/
                  ".custom-file.el"))
                nil (cus-edit)
                "修改Emacs导出'customization'的位置,以防Emacs搅乱这个文件的'custom-set-variables'形式和'custom-set-faces'形式")
@@ -214,7 +214,7 @@
                             (require 'transwin)
                             '(transwin-ask 77))
                          (make-thread #'(lambda ()
-                                          (while (not (boundp 'shynur-emacs-running-minutes))
+                                          (while (not (boundp 'shynur/emacs-running-minutes))
                                             (sleep-for 1))
                                           (message #("爱来自Emacs喵~ 已运行[%d]min, 进程PID为[%d], 启动耗时[%.3f]s"
                                                      15 17 (face bold)
@@ -222,9 +222,9 @@
                                                      40 42 (face bold))
                                                    ,(progn
                                                       (require 'cl-lib)
-                                                      '(cl-incf shynur-emacs-running-minutes))
+                                                      '(cl-incf shynur/emacs-running-minutes))
                                                    ,(emacs-pid)
-                                                   shynur-emacs-init-seconds)))))
+                                                   shynur/emacs-init-seconds)))))
                      nil (time)
                      "`display-time-mode'每次更新'时间'时调用(也即,每`display-time-interval'秒一次)")
  '(display-time-interval 60
@@ -249,24 +249,24 @@
  '(enable-recursive-minibuffers nil
                                 nil ()
                                 "禁用`recursive-minibuffer'")
- '(eshell-directory-name (shynur-pathname-ensure-parent-directory-exist
+ '(eshell-directory-name (shynur/pathname-ensure-parent-directory-exist
                           (concat
-                           shynur-user_~/.emacs.d/shynur-local/
+                           shynur/etc/
                            "eshell-directory-name/"))
                          nil (esh-mode))
- '(eshell-history-file-name (shynur-pathname-ensure-parent-directory-exist
+ '(eshell-history-file-name (shynur/pathname-ensure-parent-directory-exist
                              (concat
-                              shynur-user_~/.emacs.d/shynur-local/
+                              shynur/etc/
                               "eshell-history-file-name.txt"))
                             nil (em-hist))
- '(eshell-last-dir-ring-file-name (shynur-pathname-ensure-parent-directory-exist
+ '(eshell-last-dir-ring-file-name (shynur/pathname-ensure-parent-directory-exist
                                    (concat
-                                    shynur-user_~/.emacs.d/shynur-local/
+                                    shynur/etc/
                                     "eshell-last-dir-ring-file-name.txt"))
                                   nil (em-dirs))
- '(eww-bookmarks-directory (shynur-pathname-ensure-parent-directory-exist
+ '(eww-bookmarks-directory (shynur/pathname-ensure-parent-directory-exist
                             (concat
-                             shynur-user_~/.emacs.d/shynur-local/
+                             shynur/etc/
                              "eww-bookmarks-directory/"))
                            nil (eww))
  '(extended-command-suggest-shorter t
@@ -278,9 +278,9 @@
  '(desktop-save-mode nil
                      nil (desktop))
  '(desktop-path (list
-                 (shynur-pathname-ensure-parent-directory-exist
+                 (shynur/pathname-ensure-parent-directory-exist
                   (concat
-                   shynur-user_~/.emacs.d/shynur-local/
+                   shynur/etc/
                    "desktop-path/")))
                 nil (desktop)
                 "查找被保存的'desktop'的位置所在的目录")
@@ -289,9 +289,9 @@
                           "和`desktop-path'组合使用")
  '(desktop-base-lock-name "desktop-base-lock-name.el"
                           nil (desktop))
- '(savehist-file (shynur-pathname-ensure-parent-directory-exist
+ '(savehist-file (shynur/pathname-ensure-parent-directory-exist
                   (concat
-                   shynur-user_~/.emacs.d/shynur-local/
+                   shynur/etc/
                    "savehist-file.el"))
                  nil (savehist)
                  "必须在打开`savehist-mode'之前设置此变量,否则`savehist-mode'将找不到该文件")
@@ -438,9 +438,9 @@
  '(inhibit-startup-echo-area-message user-login-name
                                      nil ()
                                      "只有将该变量设置为自己在OS中的'username',才能屏蔽'startup'时 echo area 的“For information about GNU Emacs and the GNU system, type C-h C-a.”")
- '(save-place-file (shynur-pathname-ensure-parent-directory-exist
+ '(save-place-file (shynur/pathname-ensure-parent-directory-exist
                     (concat
-                     shynur-user_~/.emacs.d/shynur-local/
+                     shynur/etc/
                      "save-place-file.el"))
                    nil (saveplace))
  '(save-place-mode t
@@ -469,9 +469,9 @@
  '(suggest-key-bindings 5
                         nil (simple)
                         "_1_通过函数名调用command时,在minibuffer中提示这个command可能绑定的快捷键;_2_决定`extended-command-suggest-shorter'的显示持续时间;_3_将前面这两个提示信息持续显示5秒;_4_使command候选词列表中,各函数名的后面显示该函数绑定的快捷键")
- '(temporary-file-directory (shynur-pathname-ensure-parent-directory-exist
+ '(temporary-file-directory (shynur/pathname-ensure-parent-directory-exist
                              (concat
-                              shynur-user_~/.emacs.d/shynur-local/
+                              shynur/etc/
                               "temporary-file-directory/"))
                             nil ()
                             "'临时文件'的放置目录(隐私文件放在“/tmp/”目录是不妥的)")
@@ -481,9 +481,9 @@
  '(track-eol nil
              nil (simple)
              "上下移动时,不紧贴行尾")
- '(tramp-auto-save-directory (shynur-pathname-ensure-parent-directory-exist
+ '(tramp-auto-save-directory (shynur/pathname-ensure-parent-directory-exist
                               (concat
-                               shynur-user_~/.emacs.d/shynur-local/
+                               shynur/etc/
                                "tramp-auto-save-directory/"))
                              nil (tramp))
  '(apropos-do-all nil
@@ -505,9 +505,9 @@
                           tramp-default-method))
                         nil (tramp)
                         "编辑'remote-file'时,选择使用何种方法链接至服务器(MS-Windows必须先下载plink工具: <https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Tramp-ssh>)")
- '(tramp-persistency-file-name (shynur-pathname-ensure-parent-directory-exist
+ '(tramp-persistency-file-name (shynur/pathname-ensure-parent-directory-exist
                                 (concat
-                                 shynur-user_~/.emacs.d/shynur-local/
+                                 shynur/etc/
                                  "tramp-persistency-file-name.el"))
                                nil (tramp-cache))
  '(apropos-sort-by-scores 'verbose
@@ -520,20 +520,20 @@
  '(uniquify-strip-common-suffix t
                                 nil (uniquify)
                                 "当`uniquify-buffer-name-style'的设置涉及补全文件路径时,保留显示路径名之间相同的部分")
- '(url-cache-directory (shynur-pathname-ensure-parent-directory-exist
+ '(url-cache-directory (shynur/pathname-ensure-parent-directory-exist
                         (concat
-                         shynur-user_~/.emacs.d/shynur-local/
+                         shynur/etc/
                          "url-cache-directory/"))
                        nil (url-cache))
- '(url-cookie-file (shynur-pathname-ensure-parent-directory-exist
+ '(url-cookie-file (shynur/pathname-ensure-parent-directory-exist
                     (concat
-                     shynur-user_~/.emacs.d/shynur-local/
+                     shynur/etc/
                      "url-cookie-file"))
                    nil (url-cookie))
- '(user-full-name shynur-user-full-name
+ '(user-full-name shynur/user-full-name
                   nil ()
                   "用户的'姓名'")
- '(user-mail-address (nth 0 shynur-user-emails)
+ '(user-mail-address (nth 0 shynur/user-emails)
                      nil ()
                      "用户的网络'邮箱'")
  '(what-cursor-show-names t
@@ -668,9 +668,9 @@
                               explicit-shell-file-name))
                             nil (shell)
                             "'shell-mode'的默认启动SHELL(见<https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Using-shell>)")
- '(server-auth-dir (shynur-pathname-ensure-parent-directory-exist
+ '(server-auth-dir (shynur/pathname-ensure-parent-directory-exist
                     (concat
-                     shynur-user_~/.emacs.d/shynur-local/
+                     shynur/etc/
                      "server-auth-dir/"))
                    nil (server)
                    "'server-auth-dir/server-name.txt',该变量需要在`server-start'之前设置好")
@@ -714,10 +714,10 @@
                                    ;;调节'beep'的声音种类,而不是音量
                                    (set-message-beep nil))
                                #'(lambda ()
-                                   (defconst shynur-emacs-init-seconds (/ (- (car (time-convert after-init-time 1000))
+                                   (defconst shynur/emacs-init-seconds (/ (- (car (time-convert after-init-time 1000))
                                                                              (car (time-convert before-init-time 1000)))
                                                                           1000.0))
-				                   (setq shynur-emacs-running-minutes -2)))))
+				                   (setq shynur/emacs-running-minutes -2)))))
  '(tooltip-delay 0
                  nil (tooltip))
  '(tooltip-mode t
@@ -757,11 +757,11 @@
 
 (custom-set-faces
  '(default ((t (:family  "Maple Mono SC NF"
-                         :foundry "outline"
-                         :slant  normal
-                         :weight normal
-                         :height 151
-                         :width  normal)))))
+                :foundry "outline"
+                :slant  normal
+                :weight normal
+                :height 151
+                :width  normal)))))
 
 ;;--------------------------------------------------------------------
 
@@ -785,7 +785,7 @@
 
 (global-unset-key [?\C-x ?f]) ;set-fill-column
 
-;`undo'只需要绑定到'C-/'上就够了
+                                        ;`undo'只需要绑定到'C-/'上就够了
 (progn
   (global-unset-key [?\C-_])
   (global-unset-key [?\C-x ?u]))
@@ -842,19 +842,19 @@
 (when (progn
         (require 'frame)
         (display-graphic-p))
-  (defconst shynur-frame-save-position-size-file
-    (shynur-pathname-ensure-parent-directory-exist
+  (defconst shynur/frame-save-position-size-file
+    (shynur/pathname-ensure-parent-directory-exist
      (concat
-      shynur-user_~/.emacs.d/shynur-local/
+      shynur/etc/
       "shynur-frame-save-position-size-file.el")))
   (add-hook 'emacs-startup-hook
             #'(lambda ()
-                (when (file-exists-p shynur-frame-save-position-size-file)
+                (when (file-exists-p shynur/frame-save-position-size-file)
                   (progn
                     (require 'files)
                     (load-file (progn
 				                 (require 'frame)
-				                 shynur-frame-save-position-size-file))))))
+				                 shynur/frame-save-position-size-file))))))
   (add-hook 'kill-emacs-hook
             #'(lambda ()
                 (let* ((props
@@ -874,7 +874,7 @@
                                do (insert
                                    (format "(add-to-list 'initial-frame-alist '(%s . %d))\n"
                                            prop val))))
-                    (write-file shynur-frame-save-position-size-file))))))
+                    (write-file shynur/frame-save-position-size-file))))))
 
 ;;--------------------------------------------------------------------
 
