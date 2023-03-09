@@ -81,6 +81,10 @@
                                                on-screen
                                                markdown-mode))))
                              4 (package))
+ '(lexical-binding t)
+ '(highlight-nonselected-windows t
+                                 nil ()
+                                 "除了当前选中的'window',还'高亮'非选中的'window'的'active-region'")
  '(transient-history-file (shynur-pathname-ensure-parent-directory-exist
                            (concat
                             shynur-user_~/.emacs.d/shynur-local/
@@ -686,20 +690,14 @@
                                                       (sleep-for 0.5))
                                                     (kill-buffer "*scratch*"))))
                                #'server-start ;<https://www.gnu.org/software/emacs/manual/html_mono/efaq-w32.html#Associate-files-with-Emacs>;一定要在启动之后才调用该函数,让各项参数设置好
-                               ;;#'toggle-frame-maximized ;'frame'最大化(见<https://www.gnu.org/software/emacs/manual/html_node/efaq/Fullscreen-mode-on-MS_002dWindows.html>)
+                               #'(lambda ()
+                                   (progn
+                                     (require 'window)
+                                     (other-window 1)
+                                     (delete-other-windows)))
                                #'(lambda ()
                                    ;;记录击键
                                    (lossage-size (* 10000 10)))
-                               #'(lambda ()
-                                   (make-thread #'(lambda ()
-                                                    (while (not (get-file-buffer initial-buffer-choice))
-                                                      (sleep-for 0.5))
-                                                    (progn
-                                                      (require 'neotree)
-                                                      (neotree))
-                                                    (progn
-                                                      (require 'window)
-                                                      (other-window 1)))))
                                #'(lambda ()
                                    (prefer-coding-system 'utf-8-unix)
                                    (set-coding-system-priority 'utf-8-unix))
@@ -891,3 +889,8 @@
 ;; 'highlight-parentheses'只会高亮光标附近的括号,其余地方还是一成不变.
 ;; 这样不够酷炫.
 ;;--------------------------------------------------------------------
+
+(require 'eglot)
+(add-to-list 'eglot-server-programs '((c++-mode c-mode) "d:/Progs/clangd_15.0.6/bin/clangd.exe"))
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
