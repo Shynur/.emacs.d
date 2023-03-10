@@ -1,4 +1,4 @@
-;;; ~shynur/.emacs.d/init.el
+;;; ~shynur/.emacs.d/init.el  -*- lexical-binding: t; -*-
 ;;; Copyright (C) 2023 Shynur <one.last.kiss@outlook.com>
 
 ;;--------------------------------------------------------------------
@@ -77,11 +77,9 @@
                                                rainbow-delimiters
                                                transwin
                                                company
-                                               crux
                                                on-screen
                                                markdown-mode))))
                              4 (package))
- '(lexical-binding t)
  '(highlight-nonselected-windows t
                                  nil ()
                                  "除了当前选中的'window',还'高亮'非选中的'window'的'active-region'")
@@ -172,7 +170,7 @@
                               "minibuffer补全时,按TAB会轮换候选词")
  '(current-language-environment (cond
                                  ((eq system-type 'windows-nt)
-                                  "Chinese-GB18030")
+                                  "UTF-8")
                                  (t
                                   "UTF-8"))
                                 nil ()
@@ -180,6 +178,11 @@
  '(completion-category-overrides completion-category-overrides
                                  nil (minibuffer)
                                  "minibuffer在不同场景下的补全风格(从`completion-styles-alist'中选取)")
+ '(kill-ring-max most-positive-fixnum
+                 nil (simple))
+ '(delete-trailing-lines t
+                         nil (simple)
+                         "执行`delete-trailing-whitespace'时,还删除首尾的多余的空行")
  '(transient-mark-mode t
                        nil ()
                        "高亮'region'")
@@ -643,6 +646,13 @@
                               insert-directory-program))
                             nil (files)
                             "如果需要使用外部的ls-like命令,它的路径将被存储于该变量")
+ '(debug-on-error t
+                  nil ()
+                  "没有对应的'handler'时进入debugger;debugger直接在error所在的环境中运行,所以很方便")
+ '(eval-expression-debug-on-error t
+                                  nil (simple)
+                                  "在`eval-expression'时暂时地将`debug-on-error'设置为t")
+ '(debug-on-quit nil)
  '(comint-completion-addsuffix '("/" . " ")
                                nil (comint)
                                "'shell-mode'对pathname补全时,在pathname之后添加的字符串.(e.g., cat+.emacs.d/init.el+该变量的值)")
@@ -765,11 +775,6 @@
 
 ;;--------------------------------------------------------------------
 
-;;先移动到代码的最前面,而不是'行首'
-(global-set-key [?\C-a] (progn
-                          (require 'crux)
-                          'crux-move-beginning-of-line))
-
 ;;详见 info emacs 10.9: 一些对我来说没啥用的帮助信息
 (progn
   (global-unset-key [?\C-h ?\C-c])
@@ -783,9 +788,11 @@
 (progn
   (global-unset-key [?\C-l]))
 
-(global-unset-key [?\C-x ?f]) ;set-fill-column
+(global-unset-key [?\C-x ?f]) ;`set-fill-column'
+(global-unset-key (kbd "C-x C-u")) ;`upcase-region'
+(global-unset-key (kbd "C-x s")) ;保存所有文件
 
-                                        ;`undo'只需要绑定到'C-/'上就够了
+;;`undo'只需要绑定到'C-/'上就够了
 (progn
   (global-unset-key [?\C-_])
   (global-unset-key [?\C-x ?u]))
