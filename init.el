@@ -1,4 +1,4 @@
-;;; ~shynur/.emacs.d/init.el  -*- lexical-binding: t; -*-
+;;; ~shynur/.emacs.d/init.el
 ;;; Copyright (C) 2023 Shynur <one.last.kiss@outlook.com>
 
 ;;--------------------------------------------------------------------
@@ -215,7 +215,8 @@
  '(display-time-hook `((lambda ()
                          ,(progn
                             (require 'transwin)
-                            '(transwin-ask 77))
+                            '(transwin-ask 77)))
+                       (lambda ()
                          (make-thread #'(lambda ()
                                           (while (not (boundp 'shynur/emacs-running-minutes))
                                             (sleep-for 1))
@@ -790,17 +791,27 @@
 
 (global-unset-key [?\C-x ?f]) ;`set-fill-column'
 (global-unset-key (kbd "C-x C-u")) ;`upcase-region'
-(global-unset-key (kbd "C-x s")) ;保存所有文件
+(global-unset-key (kbd "C-x s"))
+
+;;设置mark并移动point的组合命令.由于是功能上的组合,所以不是很有必要
+(progn
+  (global-unset-key (kbd "M-@"))
+  (global-unset-key (kbd "C-M-@"))
+  (global-unset-key (kbd "M-h"))
+  (global-unset-key (kbd "C-M-h"))
+  (global-unset-key (kbd "C-x C-p")))
 
 ;;`undo'只需要绑定到'C-/'上就够了
 (progn
   (global-unset-key [?\C-_])
   (global-unset-key [?\C-x ?u]))
 
-(global-set-key [?\C-c ?r]
-                (progn
-                  (require 'restart-emacs)
-                  #'restart-emacs))
+;;'C-c 字母'
+(progn
+  (global-set-key [?\C-c ?r]
+                  (progn
+                    (require 'restart-emacs)
+                    #'restart-emacs)))
 
 (progn
   (global-set-key [?\C-s]
