@@ -1,6 +1,10 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("c:/Users/Les1i/.emacs.d/init.el" . 38680)
- ("d:/Desktop/Shynur.GitHub.iO/Categories/LeetCode/0.md" . 1442)
- ("d:/Progs/emacs-28.2/share/emacs/28.2/lisp/emacs-lisp/cl-lib.el" . 19894)
+(("c:/Users/Les1i/.emacs.d/init.el" . 41124)
+ ("d:/Desktop/Shynur.GitHub.iO/Categories/LeetCode/0.md" . 1424)
+ ("c:/Users/Les1i/AppData/Roaming/Typora/themes/github_maple.css" . 5557)
+ ("c:/Users/Les1i/AppData/Roaming/Typora/themes/github.css" . 77)
+ ("d:/Progs/emacs-28.2/share/emacs/28.2/lisp/emacs-lisp/cl-lib.el" . 5300)
+ ("d:/Desktop/schoolwork/ai/10215102427-谢骐-1.md" . 1620)
+ ("d:/Progs/emacs-28.2/share/emacs/28.2/lisp/emacs-lisp/cl-macs.el" . 74817)
  ("d:/Progs/emacs-28.2/share/emacs/28.2/lisp/emacs-lisp/generator.el" . 29017)
  ("d:/Progs/emacs-28.2/share/emacs/28.2/lisp/simple.el" . 216725))
