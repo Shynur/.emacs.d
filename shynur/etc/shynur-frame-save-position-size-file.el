@@ -1,4 +1,4 @@
-(add-to-list 'initial-frame-alist '(left . 0))
-(add-to-list 'initial-frame-alist '(top . 0))
-(add-to-list 'initial-frame-alist '(width . 168))
-(add-to-list 'initial-frame-alist '(height . 40))
+(add-to-list 'initial-frame-alist '(left . 513))
+(add-to-list 'initial-frame-alist '(top . 411))
+(add-to-list 'initial-frame-alist '(width . 99))
+(add-to-list 'initial-frame-alist '(height . 23))

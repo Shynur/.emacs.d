@@ -647,9 +647,9 @@
                               insert-directory-program))
                             nil (files)
                             "如果需要使用外部的ls-like命令,它的路径将被存储于该变量")
- '(debug-on-error t
+ '(debug-on-error nil
                   nil ()
-                  "没有对应的'handler'时进入debugger;debugger直接在error所在的环境中运行,所以很方便")
+                  "没有对应的'handler'时进入debugger;debugger直接在error所在的环境中运行,所以很方便;但是有些'package'没有使用'user-error',所以若此变量开启,会时常进入debugger,非常麻烦,所以暂时来说,应该关掉")
  '(eval-expression-debug-on-error t
                                   nil (simple)
                                   "在`eval-expression'时暂时地将`debug-on-error'设置为t")
@@ -664,6 +664,12 @@
                            comint-process-echoes))
                          nil (comint)
                          "Windows上的PowerShell会回显输入的命令(至少在'shell-mode'中是这样),设置此变量以删除它")
+ '(use-empty-active-region nil
+                           nil (simple)
+                           "有些命令的行为取决于是否有'active''region'.'region'长度为0时应该让那些命令无视'region',因为用户很难识别长度为0的'region'")
+ '(delete-active-region t
+                        nil (simple)
+                        "当'region''active'时,删除命令删除整个'region'而非单个字符")
  '(shell-mode-hook (append shell-mode-hook
                            (list
                             (cond
@@ -674,6 +680,9 @@
                              (t
                               #'ignore))))
                    nil (shell))
+ '(mark-even-if-inactive nil
+                         nil ()
+                         "不把'inactive''region'当'region'看")
  '(explicit-shell-file-name (cond
                              (t
                               explicit-shell-file-name))
@@ -790,8 +799,14 @@
   (global-unset-key [?\C-l]))
 
 (global-unset-key [?\C-x ?f]) ;`set-fill-column'
-(global-unset-key (kbd "C-x C-u")) ;`upcase-region'
 (global-unset-key (kbd "C-x s"))
+
+(progn
+  ;;区域大小写
+  (global-unset-key (kbd "C-x C-u"))
+  (global-unset-key (kbd "C-x C-l"))
+  ;;区域缩进
+  (global-unset-key (kbd "C-M-\\")))
 
 ;;设置mark并移动point的组合命令.由于是功能上的组合,所以不是很有必要
 (progn
