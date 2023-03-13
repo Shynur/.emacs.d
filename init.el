@@ -430,6 +430,15 @@
                 nil ()
                 "使用这种循环结构表示法打印:``#1=(t . #1#)''")
  '(max-lisp-eval-depth max-lisp-eval-depth)
+ '(max-specpdl-size max-specpdl-size
+                    nil ()
+                    "似乎在emacs-29中被废弃了")
+ '(shr-offer-extend-specpdl t
+                            nil (shr)
+                            "'HTML'可能会有很深的嵌套,因此需要更多的'PDL'.该变量决定自动增长PDL的大小")
+ '(shift-select-mode t
+                     nil (simple)
+                     "按住'shift'时移动光标,以选中文本")
  '(read-buffer-completion-ignore-case t
                                       nil ()
                                       "对buffer名字进行补全时,忽略大小写")
