@@ -1,4 +1,4 @@
-;;; ~shynur/.emacs.d/init.el
+;;; ~shynur/.emacs.d/init.el  -*- lexical-binding: t; -*-
 ;;; Copyright (C) 2023 Shynur <one.last.kiss@outlook.com>
 
 ;;--------------------------------------------------------------------
@@ -189,6 +189,12 @@
  '(mark-even-if-inactive mark-even-if-inactive
                          nil ()
                          "不知道干嘛用的")
+ '(mark-ring-max mark-ring-max
+                 nil (simple)
+                 "太大的话就不能轮回访问了")
+ '(global-mark-ring-max most-positive-fixnum
+                        nil (simple)
+                        "`global-mark-ring'只会在离开某个'buffer'时,记住那个'buffer'最后设置的'mark',这相当于将'buffer'作为节点的路径;因此,可以设置为较大的值")
  '(cua-mode nil)
  '(completion-ignored-extensions completion-ignored-extensions
                                  nil ()
@@ -670,6 +676,9 @@
  '(delete-active-region t
                         nil (simple)
                         "当'region''active'时,删除命令删除整个'region'而非单个字符")
+ '(set-mark-command-repeat-pop nil
+                               nil (simple)
+                               "置t的话,轮流跳转到'mark-ring'中指定的位置时,只有第一次需要加'C-u'前缀,后续全部只需要'C-SPC'即可")
  '(shell-mode-hook (append shell-mode-hook
                            (list
                             (cond
