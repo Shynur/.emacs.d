@@ -383,6 +383,9 @@
  '(indent-tabs-mode nil
                     nil ()
                     "制表符尽量用空格代替.(不过,诸如'Bash'脚本之类的文件编写还是需要tab字符的)")
+ '(kill-whole-line nil
+                   nil (simple)
+                   "`C-k'不删除换行符")
  '(visible-bell t
                 nil ()
                 "响铃可视化.在Windows上表现为,任务栏图标闪烁")
@@ -803,7 +806,7 @@
 
 ;;--------------------------------------------------------------------
 
-;;详见 info emacs 10.9: 一些对我来说没啥用的帮助信息
+;;详见 info emacs 10.9: 一些似乎没啥用的帮助信息
 (progn
   (global-unset-key [?\C-h ?\C-c])
   (global-unset-key [?\C-h ?g])
@@ -817,7 +820,12 @@
   (global-unset-key [?\C-l]))
 
 (global-unset-key [?\C-x ?f]) ;`set-fill-column'
-(global-unset-key (kbd "C-x s"))
+(global-unset-key (kbd "C-x s")) ;保存所有文件
+(global-unset-key (kbd "C-x C-o")) ;删除附近空行
+(global-unset-key (kbd "M-^"))
+(global-unset-key (kbd "C-S-<backspace>")) ;删除一整行及其换行符
+(global-unset-key (kbd "C-x DEL")) ;kill至行首
+(global-unset-key (kbd "M-k")) ;kill至行尾
 
 (progn
   ;;区域大小写
