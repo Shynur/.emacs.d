@@ -474,6 +474,17 @@
  '(search-default-mode t
                        nil (isearch)
                        "令`isearch'使用'regexp'搜索")
+ '(kill-read-only-ok t
+                     nil (simple)
+                     "'kill'只读的文本时,不再'beep'或显示'error消息',而是仅message以解释为何被'kill'的文本没有被擦除")
+ '(kill-transform-function #'(lambda (string)
+                               (and (not (string-blank-p string))
+                                    string))
+                           nil (simple)
+                           "将它应用到被'kill'的文本上,并将其返回值加入到`kill-ring'中;若返回nil则不加入.(该例选自'<https://www.gnu.org/software/emacs/manual/html_node/emacs/Kill-Options.html>')")
+ '(kill-do-not-save-duplicates t
+                               nil (simple)
+                               "'kill'重复的文本时,不将其加入到`kill-ring'中(具体行为受`equal-including-properties'影响)")
  '(show-paren-mode t
                    nil (paren)
                    "括号前后匹配时,高亮显示")
@@ -826,6 +837,7 @@
 (global-unset-key (kbd "C-S-<backspace>")) ;删除一整行及其换行符
 (global-unset-key (kbd "C-x DEL")) ;kill至行首
 (global-unset-key (kbd "M-k")) ;kill至行尾
+(global-unset-key (kbd "M-z")) ;`zap-to-char'一帧就删完了,动作太快 反应不过来
 
 (progn
   ;;区域大小写
